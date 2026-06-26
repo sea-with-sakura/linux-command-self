@@ -1,0 +1,30 @@
+<%- include('partial/header'); %>
+<%- include('widget/search',{type: "list"}); %>
+<script>
+window.__EDITOR_COMMAND__ = <%- JSON.stringify(describe.n || '') %>;
+window.__EDITOR_MD_PATH__ = <%- JSON.stringify(md_path || '') %>;
+window.__EDITOR_SOURCE__ = <%- JSON.stringify(md_source || '') %>;
+</script>
+<script type="text/javascript" src="<%=relative_path%>js/editor.js?v=<%=new Date().getTime()%>"></script>
+
+<main class="editor-page">
+  <div class="editor-toolbar">
+    <div>
+      <h1>修正 <%=describe.n%></h1>
+      <p><%=md_path%></p>
+    </div>
+    <div class="editor-actions">
+      <a href="<%=relative_path%>c/<%=describe.n%>.html">返回原文</a>
+      <button type="button" id="save_md">保存到服务器</button>
+      <button type="button" id="copy_md">复制内容</button>
+      <button type="button" id="download_md">下载 Markdown</button>
+      <button type="button" id="reset_md">恢复原文</button>
+    </div>
+  </div>
+  <div class="editor-status" id="editor_status">修改会自动保存在当前浏览器草稿中。</div>
+  <section class="editor-pane editor-source">
+    <div class="editor-pane-title">Markdown</div>
+    <textarea id="md_editor" spellcheck="false"></textarea>
+  </section>
+</main>
+<%- include('partial/footer'); %>

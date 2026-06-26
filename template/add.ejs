@@ -1,0 +1,35 @@
+<%- include('partial/header'); %>
+<%- include('widget/search',{type: "list"}); %>
+<script>
+window.__EDITOR_MODE__ = 'create';
+window.__EDITOR_COMMAND__ = '';
+window.__EDITOR_MD_PATH__ = '';
+window.__EDITOR_SOURCE__ = <%- JSON.stringify(md_source || '') %>;
+</script>
+<script type="text/javascript" src="<%=relative_path%>js/editor.js?v=<%=new Date().getTime()%>"></script>
+
+<main class="editor-page">
+  <div class="editor-toolbar">
+    <div>
+      <h1>添加命令</h1>
+      <p>保存后会创建新的 command/*.md 文件，并重新生成页面。</p>
+    </div>
+    <div class="editor-actions">
+      <a href="<%=relative_path%>index.html">返回首页</a>
+      <button type="button" id="save_md">保存到服务器</button>
+      <button type="button" id="copy_md">复制内容</button>
+      <button type="button" id="download_md">下载 Markdown</button>
+      <button type="button" id="reset_md">恢复模板</button>
+    </div>
+  </div>
+  <label class="editor-field">
+    <span>命令名</span>
+    <input type="text" id="command_name" autocomplete="off" placeholder="例如 systemctl">
+  </label>
+  <div class="editor-status" id="editor_status">填写命令名后，按模板补充说明和实例。</div>
+  <section class="editor-pane editor-source">
+    <div class="editor-pane-title">Markdown</div>
+    <textarea id="md_editor" spellcheck="false"></textarea>
+  </section>
+</main>
+<%- include('partial/footer'); %>
