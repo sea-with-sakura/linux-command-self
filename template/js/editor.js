@@ -28,8 +28,12 @@
     var commandInput = document.getElementById('command_name');
     var command = window.__EDITOR_COMMAND__ || '';
     var source = window.__EDITOR_SOURCE__ || '';
-    var draftKey = mode === 'create' ? 'linux-command-edit:add' : 'linux-command-edit:' + command;
-    var commandDraftKey = 'linux-command-edit:add-command';
+    var draftKey = mode === 'create' ? 'linux-command-edit:add:v2' : 'linux-command-edit:' + command;
+    var commandDraftKey = 'linux-command-edit:add-command:v2';
+    if (mode === 'create') {
+      localStorage.removeItem('linux-command-edit:add');
+      localStorage.removeItem('linux-command-edit:add-command');
+    }
     var draft = localStorage.getItem(draftKey);
 
     editor.value = draft || source;
@@ -159,12 +163,15 @@
     });
 
     document.getElementById('reset_md').addEventListener('click', function () {
-      if (!confirm('确定恢复为原始 Markdown 内容吗？当前草稿会被清除。')) return;
+      var resetMessage = mode === 'create'
+        ? '确定恢复为空白命令模板吗？当前草稿会被清除。'
+        : '确定恢复为原始 Markdown 内容吗？当前草稿会被清除。';
+      if (!confirm(resetMessage)) return;
       localStorage.removeItem(draftKey);
       if (mode === 'create') localStorage.removeItem(commandDraftKey);
       if (commandInput) commandInput.value = '';
       editor.value = source;
-      setStatus('已恢复原文。');
+      setStatus(mode === 'create' ? '已恢复为空白命令模板。' : '已恢复原文。');
     });
   });
 })();

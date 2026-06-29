@@ -384,6 +384,11 @@
     "p": "/compress",
     "d": "使用Lempress-Ziv编码压缩数据文件"
   },
+  "conda": {
+    "n": "conda",
+    "p": "/conda",
+    "d": "一个跨平台的包管理器和环境管理器，用于创建、切换、导出、复现 Python/R/科学计算环境，并管理不同环境中的软件包版本。"
+  },
   "consoletype": {
     "n": "consoletype",
     "p": "/consoletype",

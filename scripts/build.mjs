@@ -11,44 +11,23 @@ const templateImgDir = path.resolve(process.cwd(), 'template', 'img');
 const rootIndexJSPath = path.resolve(process.cwd(), 'template', 'js', 'index.js');
 const editorJSPath = path.resolve(process.cwd(), 'template', 'js', 'editor.js');
 const outlineJSPath = path.resolve(process.cwd(), 'template', 'js', 'outline.js');
+const newCommandTemplatePath = path.resolve(process.cwd(), 'template', 'new-command.md');
 const dataJsonPath = path.resolve(process.cwd(), 'dist', 'data.json');
 const dataJsonMinPath = path.resolve(process.cwd(), 'dist', 'data.min.json');
 const cssPath = path.resolve(deployDir, 'css', 'index.css');
 const contributorsPath = path.resolve(process.cwd(), 'CONTRIBUTORS.svg');
 const singleArg = process.argv.find((arg) => arg.startsWith('--single='));
 const singleCommandFile = singleArg ? sanitizeCommandName(singleArg.replace(/^--single=/, '')) : '';
-const newCommandTemplate = `命令名
-===
-
-一句话说明这个命令的用途
-
-## 补充说明
-
-**命令名命令** 用于说明这里填写更完整的介绍、常见使用场景和注意事项。
-
-### 语法
-
-\`\`\`shell
-命令名 [选项] [参数]
-\`\`\`
-
-### 选项
-
-- \`-h\`: 显示帮助信息
-- \`-v\`: 显示版本信息
-
-### 实例
-
-\`\`\`shell
-命令名 --help
-\`\`\`
-`;
 
 function sanitizeCommandName(value) {
   return String(value || '')
     .replace(/^\uFEFF/, '')
     .replace(/[\u200B-\u200D\u2060]/g, '')
     .trim();
+}
+
+async function readNewCommandTemplate() {
+  return FS.readFile(newCommandTemplatePath, 'utf8');
 }
 
 ;(async () => {
@@ -81,6 +60,7 @@ function sanitizeCommandName(value) {
     await FS.outputFile(dataJsonPath, JSON.stringify(jsonData.json, null, 2));
     await FS.outputFile(dataJsonMinPath, JSON.stringify(jsonData.json));
     await FS.outputFile(path.resolve(deployDir, 'js', 'dt.js'), `var linux_commands=${JSON.stringify(jsonData.data)}`);
+    const newCommandTemplate = await readNewCommandTemplate();
 
     const cssStr = await createStylToCss(
       path.resolve(process.cwd(), 'template', 'styl', 'index.styl'),
@@ -207,6 +187,7 @@ async function buildSingle(commandFile) {
   await FS.outputFile(dataJsonPath, JSON.stringify(jsonData.json, null, 2));
   await FS.outputFile(dataJsonMinPath, JSON.stringify(jsonData.json));
   await FS.outputFile(path.resolve(deployDir, 'js', 'dt.js'), `var linux_commands=${JSON.stringify(jsonData.data)}`);
+  const newCommandTemplate = await readNewCommandTemplate();
 
   await createTmpToHTML(
     path.resolve(process.cwd(), 'template', 'index.ejs'),
