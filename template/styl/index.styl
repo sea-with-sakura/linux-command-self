@@ -41,6 +41,60 @@ mq-mobile = "screen and (max-width: 479px)"
   }
 }
 
+.recent-visits {
+  margin 24px auto 0
+  max-width 720px
+  padding 0 18px
+  width 100%
+}
+
+.recent-visits-title {
+  color #666
+  font-size 13px
+  font-weight bold
+  margin 0 0 10px
+  text-align center
+}
+
+.recent-visits-list {
+  display grid
+  gap 8px
+  grid-template-columns repeat(2, minmax(0, 1fr))
+}
+
+.recent-visit-item {
+  border 1px solid var(--color-header-border)
+  border-radius 8px
+  color currentColor
+  display block
+  min-width 0
+  padding 10px 12px
+  text-decoration none
+  transition background-color .15s, border-color .15s
+  strong {
+    display block
+    font-size 14px
+    line-height 1.35
+    overflow hidden
+    text-overflow ellipsis
+    white-space nowrap
+  }
+  span {
+    color #777
+    display block
+    font-size 12px
+    line-height 1.35
+    margin-top 4px
+    overflow hidden
+    text-overflow ellipsis
+    white-space nowrap
+  }
+  &:hover {
+    background var(--color-hover)
+    border-color #66afe9
+  }
+}
+
 .header {
   width 517px
   margin 0 auto 0
@@ -298,6 +352,65 @@ mq-mobile = "screen and (max-width: 479px)"
   }
 }
 
+.doc-outline {
+  background var(--color-theme-bg)
+  border 1px solid var(--color-header-border)
+  border-radius 8px
+  box-shadow 0 12px 34px rgba(0,0,0,0.10)
+  max-height calc(100vh - 128px)
+  overflow auto
+  padding 12px
+  position fixed
+  right 18px
+  top 88px
+  width 230px
+  z-index 80
+  nav {
+    display flex
+    flex-direction column
+    gap 1px
+  }
+}
+
+.doc-outline-title {
+  color #666
+  font-size 13px
+  font-weight bold
+  margin-bottom 8px
+}
+
+.doc-outline-link {
+  border-radius 5px
+  color currentColor
+  display block
+  font-size 13px
+  line-height 1.35
+  overflow hidden
+  padding 6px 8px
+  text-decoration none
+  text-overflow ellipsis
+  white-space nowrap
+  &:hover {
+    background var(--color-hover)
+  }
+}
+
+.doc-outline-link.level-h3 {
+  color #666
+  font-size 12px
+  padding-left 18px
+}
+
+.doc-outline-link.is-active {
+  background var(--color-hover)
+  color #0969da
+  font-weight bold
+}
+
+.doc-outline-toggle {
+  display none
+}
+
 .editor-page {
   padding 86px 24px 32px
   max-width 1080px
@@ -435,6 +548,13 @@ mq-mobile = "screen and (max-width: 479px)"
   .search_list, .hotlist {
     padding 78px 27px
   }
+  .recent-visits {
+    margin-top 18px
+    padding 0 14px
+  }
+  .recent-visits-list {
+    grid-template-columns 1fr
+  }
   .editor-page {
     padding 76px 14px 24px
   }
@@ -444,5 +564,60 @@ mq-mobile = "screen and (max-width: 479px)"
   }
   .editor-actions {
     justify-content flex-start
+  }
+  .doc-outline {
+    bottom 64px
+    box-shadow 0 12px 34px rgba(0,0,0,0.18)
+    display none
+    left 14px
+    max-height 55vh
+    right 14px
+    top auto
+    width auto
+    z-index 1000
+  }
+  .doc-outline.is-open {
+    display block
+  }
+  .doc-outline-toggle {
+    background var(--color-theme-bg)
+    border 1px solid var(--color-header-border)
+    border-radius 999px
+    bottom 14px
+    box-shadow 0 8px 24px rgba(0,0,0,0.18)
+    color currentColor
+    cursor pointer
+    display block
+    font-size 14px
+    font-weight bold
+    padding 9px 14px
+    position fixed
+    right 14px
+    z-index 1001
+  }
+}
+
+@media screen and (max-width: 1420px) {
+  .doc-outline {
+    display none
+  }
+  .doc-outline.is-open {
+    display block
+  }
+  .doc-outline-toggle {
+    background var(--color-theme-bg)
+    border 1px solid var(--color-header-border)
+    border-radius 999px
+    bottom 18px
+    box-shadow 0 8px 24px rgba(0,0,0,0.18)
+    color currentColor
+    cursor pointer
+    display block
+    font-size 14px
+    font-weight bold
+    padding 9px 14px
+    position fixed
+    right 18px
+    z-index 1001
   }
 }

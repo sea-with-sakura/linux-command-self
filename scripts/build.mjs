@@ -10,6 +10,7 @@ const deployDir = path.resolve(process.cwd(), '.deploy');
 const templateImgDir = path.resolve(process.cwd(), 'template', 'img');
 const rootIndexJSPath = path.resolve(process.cwd(), 'template', 'js', 'index.js');
 const editorJSPath = path.resolve(process.cwd(), 'template', 'js', 'editor.js');
+const outlineJSPath = path.resolve(process.cwd(), 'template', 'js', 'outline.js');
 const dataJsonPath = path.resolve(process.cwd(), 'dist', 'data.json');
 const dataJsonMinPath = path.resolve(process.cwd(), 'dist', 'data.min.json');
 const cssPath = path.resolve(deployDir, 'css', 'index.css');
@@ -73,6 +74,8 @@ function sanitizeCommandName(value) {
     await FS.outputFile(path.resolve(deployDir, 'js', 'index.js'), UglifyJS.minify(jsData.toString()).code)
     const editorJSData = await FS.readFileSync(editorJSPath);
     await FS.outputFile(path.resolve(deployDir, 'js', 'editor.js'), UglifyJS.minify(editorJSData.toString()).code)
+    const outlineJSData = await FS.readFileSync(outlineJSPath);
+    await FS.outputFile(path.resolve(deployDir, 'js', 'outline.js'), UglifyJS.minify(outlineJSData.toString()).code)
     const files = await readMarkdownPaths(path.resolve(process.cwd(), 'command'));
     const jsonData = await createDataJSON(files);
     await FS.outputFile(dataJsonPath, JSON.stringify(jsonData.json, null, 2));
@@ -193,6 +196,8 @@ async function buildSingle(commandFile) {
   await FS.ensureDir(path.resolve(deployDir, 'edit'));
 
   const files = await readMarkdownPaths(commandDir);
+  const outlineJSData = await FS.readFileSync(outlineJSPath);
+  await FS.outputFile(path.resolve(deployDir, 'js', 'outline.js'), UglifyJS.minify(outlineJSData.toString()).code)
   const jsonData = await createDataJSON(files);
   const target = jsonData.data.find((item) => item.p === `/${commandFile}`);
   if (!target) {

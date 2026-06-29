@@ -1,6 +1,14 @@
 <%- include('partial/header'); %>
 <%- include('widget/search',{type: "list"}); %>
+<script>
+window.__COMMAND_PAGE__ = {
+  n: <%- JSON.stringify(describe.n || '') %>,
+  d: <%- JSON.stringify(describe.d || '') %>,
+  p: <%- JSON.stringify(describe.p || '') %>
+};
+</script>
 <script type="text/javascript" src="<%=relative_path%>js/copy-to-clipboard.js"></script>
+<script type="text/javascript" src="<%=relative_path%>js/outline.js?v=<%=new Date().getTime()%>"></script>
 
 <div class="markdown-body">
 <% if(md_path){ %>

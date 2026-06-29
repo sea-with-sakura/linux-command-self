@@ -1,8 +1,8 @@
 {
   "name": "linux-command",
   "version": "1.22.0",
-  "description": "Linux Command",
-  "homepage": "https://jaywcjlove.github.io/linux-command/",
+  "description": "Self-hosted Linux command reference with online Markdown editing.",
+  "homepage": "https://github.com/sea-with-sakura/linux-command-self",
   "main": "dist/data.json",
   "scripts": {
     "start": "node server.js",
@@ -20,11 +20,11 @@
     "Linux",
     "Command"
   ],
-  "author": "kenny wang <wowohoo@qq.com>",
+  "author": "sakura <liuyuhao24@mails.ucas.ac.cn>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jaywcjlove/linux-command.git"
+    "url": "git+https://github.com/sea-with-sakura/linux-command-self.git"
   },
   "devDependencies": {
     "@uiw/github-corners": "~1.5.11",

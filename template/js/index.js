@@ -38,6 +38,8 @@ function indexOfCatch(a) {
 
       this.init();
       this.goToIndex();
+      this.recordVisit();
+      this.renderRecentVisits();
     }
     /**
      * 前往主页
@@ -50,6 +52,54 @@ function indexOfCatch(a) {
           elma[i].href = this.root_path + '/';
         }
       }
+    }
+    recentKey() {
+      return 'linux-command-recent-visits';
+    }
+    getRecentVisits() {
+      try {
+        return JSON.parse(localStorage.getItem(this.recentKey()) || '[]') || [];
+      } catch (error) {
+        return [];
+      }
+    }
+    recordVisit() {
+      const page = window.__COMMAND_PAGE__;
+      if (!page || !page.n || !page.p) return;
+      const visits = this.getRecentVisits().filter(item => item && item.n !== page.n);
+      visits.unshift({
+        n: page.n,
+        d: page.d || '',
+        p: page.p,
+        t: Date.now()
+      });
+      localStorage.setItem(this.recentKey(), JSON.stringify(visits.slice(0, 12)));
+    }
+    renderRecentVisits() {
+      const box = this.$$('recent_visits');
+      const list = this.$$('recent_visits_list');
+      if (!box || !list) return;
+      const visits = this.getRecentVisits().slice(0, 8);
+      if (!visits.length) return;
+      const rootp = this.root_path.replace(/\/$/, '');
+      list.innerHTML = '';
+      visits.forEach(item => {
+        const link = document.createElement('a');
+        link.href = `${rootp}/c${item.p}.html`;
+        link.className = 'recent-visit-item';
+
+        const name = document.createElement('strong');
+        name.textContent = item.n;
+        link.appendChild(name);
+
+        if (item.d) {
+          const desc = document.createElement('span');
+          desc.textContent = item.d;
+          link.appendChild(desc);
+        }
+        list.appendChild(link);
+      });
+      box.hidden = false;
     }
     /**
      * 绑定事件

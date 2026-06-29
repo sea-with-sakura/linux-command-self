@@ -95,9 +95,13 @@ function runBuild(markdownPath) {
     }
     const child = spawn(process.execPath, args, {
       cwd: rootDir,
-      stdio: ['ignore', 'ignore', 'pipe']
+      stdio: ['ignore', 'pipe', 'pipe']
     });
+    let stdout = '';
     let stderr = '';
+    child.stdout.on('data', (chunk) => {
+      stdout += chunk.toString();
+    });
     child.stderr.on('data', (chunk) => {
       stderr += chunk.toString();
     });
@@ -106,7 +110,8 @@ function runBuild(markdownPath) {
       if (code === 0) {
         resolve(Date.now() - startedAt);
       } else {
-        reject(new Error(stderr || `构建失败，退出码 ${code}`));
+        const output = `${stderr}\n${stdout}`.trim();
+        reject(new Error(output || `构建失败，退出码 ${code}`));
       }
     });
   }));
