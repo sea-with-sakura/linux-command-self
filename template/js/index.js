@@ -302,6 +302,7 @@ function indexOfCatch(a) {
       })
       // 输入Enter键
       this.bindEvent(document, 'keyup', function (e) {
+        if (e.target !== self.elm_query) return;
         if (e.keyCode === 40) self.selectedResult("down");
         if (e.keyCode === 38) self.selectedResult("up");
         if (e.key == 'Enter') {

@@ -121,6 +121,66 @@ uv --version
 ```shell
 uv --help
 ```
+### 配置镜像
+
+```
+cat > ~/.config/uv/uv.toml <<'EOF'
+[[index]]
+url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/"
+default = true
+EOF
+```
+
+### 更换uv全局缓存地址
+保证缓存地址和项目地址需在同一个磁盘才可执行硬链接，降低空间占用，否则会`Failed to hardlink`。
+
+* 查看当前默认缓存位置
+```bash
+uv cache dir
+# 默认输出：~/.cache/uv
+```
+
+* 设定新缓存目录（放到你当前挂载盘）
+目标路径：`/mnt/data/uv-cache`
+先创建目录
+```bash
+mkdir -p /mnt/data/uv-cache
+```
+
+* 迁移原有缓存（保留已下载包，不用重下）
+```bash
+# 同步原有缓存到新目录，保留权限
+rsync -av --progress ~/.cache/uv/ /mnt/data/uv-cache/
+```
+
+* 配置全局环境变量永久生效
+```bash
+echo 'export UV_CACHE_DIR=/mnt/data/uv-cache' >> ~/.bashrc
+source ~/.bashrc
+```
+
+* 验证是否切换成功
+```bash
+uv cache dir
+```
+
+* 清理旧缓存（确认新缓存正常后执行）
+```bash
+rm -rf ~/.cache/uv
+```
+
+* 补充两种临时切换方式（不用改环境变量）
+1. 单次命令指定缓存目录
+```bash
+uv add -r requirements.txt --cache-dir /mnt/data/semi-liuyuhao/uv-cache --link-mode copy
+```
+2. uv.toml 项目本地配置（仅当前项目）
+项目根新建 `uv.toml`
+```toml
+[cache]
+directory = "/mnt/data/semi-liuyuhao/uv-cache"
+link-mode = "copy"
+```
 
 ### 新建项目
 
@@ -299,6 +359,7 @@ uv add -r requirements.txt
 ```shell
 uv add -r requirements.txt -c constraints.txt
 ```
+
 
 ### 删除依赖
 

@@ -37,6 +37,13 @@
     var draft = localStorage.getItem(draftKey);
 
     editor.value = draft || source;
+    ['keydown', 'keypress', 'keyup'].forEach(function (eventName) {
+      editor.addEventListener(eventName, function (event) {
+        if (event.key === 'Enter' || event.keyCode === 13) {
+          event.stopPropagation();
+        }
+      });
+    });
     if (commandInput) {
       commandInput.value = localStorage.getItem(commandDraftKey) || '';
       commandInput.addEventListener('input', function () {

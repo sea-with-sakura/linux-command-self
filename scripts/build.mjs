@@ -176,6 +176,10 @@ async function buildSingle(commandFile) {
   await FS.ensureDir(path.resolve(deployDir, 'edit'));
 
   const files = await readMarkdownPaths(commandDir);
+  const jsData = await FS.readFileSync(rootIndexJSPath);
+  await FS.outputFile(path.resolve(deployDir, 'js', 'index.js'), UglifyJS.minify(jsData.toString()).code)
+  const editorJSData = await FS.readFileSync(editorJSPath);
+  await FS.outputFile(path.resolve(deployDir, 'js', 'editor.js'), UglifyJS.minify(editorJSData.toString()).code)
   const outlineJSData = await FS.readFileSync(outlineJSPath);
   await FS.outputFile(path.resolve(deployDir, 'js', 'outline.js'), UglifyJS.minify(outlineJSData.toString()).code)
   const jsonData = await createDataJSON(files);
