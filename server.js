@@ -211,6 +211,6 @@ const server = http.createServer((req, res) => {
   sendText(res, 405, 'Method Not Allowed');
 });
 
-server.listen(port, () => {
+server.listen(port, "127.0.0.1", () => {
   console.log(`Linux Command editor is running at http://localhost:${port}`);
 });
